@@ -1,4 +1,4 @@
-CHARMC=/Users/raghu/work/charm/charm/bin/charmc $(OPTS)
+include ../Makefile.common
 
 all: libprefix.a
 

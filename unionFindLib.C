@@ -153,6 +153,7 @@ find_boss1(int arrIdx, uint64_t partnerID, uint64_t senderID) {
         d.partnerOrBossID = src->vertexID;
         d.senderID = -1;
         d.isFBOne = 0;
+        //CkPrintf("partner_loc.first is %d and partnerID is %lu and arrIdx is %d\n", partner_loc.first,partnerID,arrIdx);
         this->thisProxy[partner_loc.first].insertDataFindBoss(d);
 
         CProxy_UnionFindLibGroup libGroup(libGroupID);
@@ -695,7 +696,8 @@ profiling_count_max(long int maxCount) {
 // library group chare class definitions
 void UnionFindLibGroup::
 build_component_count_array(int *totalCounts, int numElems) {
-    //CkPrintf("[PE %d] Count array size: %d\n", thisIndex, numElems);
+    
+    CkPrintf("[PE %d] Count array size: %d\n", thisIndex, numElems);
     component_count_array = new int[numElems];
     memcpy(component_count_array, totalCounts, sizeof(int)*numElems);
     contribute(CkCallback(CkReductionTarget(UnionFindLib, perform_pruning), _UfLibProxy));
@@ -751,7 +753,17 @@ unionFindInit(CkArrayID clientArray, int n) {
     prefixLibArray = CProxy_Prefix::ckNew(n, prefix_opts);
 
     libGroupID = CProxy_UnionFindLibGroup::ckNew();
+
+    _UfLibProxy.passLibGroupID(libGroupID, prefixLibArray);
+
     return _UfLibProxy;
+}
+
+void UnionFindLib::passLibGroupID(CkGroupID lgid, CProxy_Prefix pla)
+{
+    prefixLibArray = pla;
+    libGroupID = lgid;
+    _UfLibProxy = this->thisProxy;
 }
 
 #include "unionFindLib.def.h"

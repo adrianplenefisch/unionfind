@@ -47,8 +47,11 @@ class UnionFindLib : public CBase_UnionFindLib {
     CkCallback postComponentLabelingCb;
 
     public:
-    UnionFindLib() {}
+    UnionFindLib() {
+        CkPrintf("Creating element %d on %d\n",thisIndex,CkMyPe());
+    }
     UnionFindLib(CkMigrateMessage *m) { }
+    void passLibGroupID(CkGroupID lgid, CProxy_Prefix pla);
     static CProxy_UnionFindLib unionFindInit(CkArrayID clientArray, int n);
     void registerGetLocationFromID(std::pair<int, int> (*gloc)(uint64_t vid));
     void register_phase_one_cb(CkCallback cb);

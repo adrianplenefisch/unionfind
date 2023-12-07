@@ -11,6 +11,11 @@ module unionFindLib {
 
     array[1D] UnionFindLib {
         entry UnionFindLib();
+
+        
+        entry void passLibGroupID(CkGroupID lgid, CProxy_Prefix pla);
+
+
         // function to register Phase 1 callback
         entry void register_phase_one_cb(CkCallback cb);
         // functions to build inverted trees
@@ -39,10 +44,10 @@ module unionFindLib {
         //entry [reductiontarget] void merge_count_results(int totalCounts[numElems], int numElems);
 
         // TRAM functions
-        entry [aggregate] void insertDataFindBoss(const findBossData & data);
-        entry [aggregate] void insertDataNeedBoss(const needBossData & data);
+        entry void insertDataFindBoss(const findBossData & data);
+        entry void insertDataNeedBoss(const needBossData & data);
 #ifdef ANCHOR_ALGO
-        entry [aggregate] void insertDataAnchor(const anchorData & data);
+        entry void insertDataAnchor(const anchorData & data);
 #endif
 #ifdef PROFILING
         entry [reductiontarget] void profiling_count_max(long maxCount);
@@ -55,5 +60,6 @@ module unionFindLib {
         entry [reductiontarget] void build_component_count_array(int totalCounts[numElems], int numElems);
         entry [reductiontarget] void done_profiling(int result);
         entry void contribute_count();
+
     }
 };

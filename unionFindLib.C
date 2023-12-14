@@ -696,7 +696,7 @@ profiling_count_max(long int maxCount) {
 void UnionFindLibGroup::
 build_component_count_array(int *totalCounts, int numElems) {
     
-    CkPrintf("[PE %d] Count array size: %d\n", thisIndex, numElems);
+    //CkPrintf("[PE %d] Count array size: %d\n", thisIndex, numElems);
     component_count_array = new int[numElems];
     memcpy(component_count_array, totalCounts, sizeof(int)*numElems);
     contribute(CkCallback(CkReductionTarget(UnionFindLib, perform_pruning), _UfLibProxy));

@@ -153,7 +153,6 @@ find_boss1(int arrIdx, uint64_t partnerID, uint64_t senderID) {
         d.partnerOrBossID = src->vertexID;
         d.senderID = -1;
         d.isFBOne = 0;
-        //CkPrintf("partner_loc.first is %d and partnerID is %lu and arrIdx is %d\n", partner_loc.first,partnerID,arrIdx);
         this->thisProxy[partner_loc.first].insertDataFindBoss(d);
 
         CProxy_UnionFindLibGroup libGroup(libGroupID);

@@ -116,7 +116,15 @@ union_request(uint64_t vid1, uint64_t vid2) {
         d.partnerOrBossID = vid2;
         d.senderID = -1;
         d.isFBOne = 1;
-        this->thisProxy[vid1_loc.first].insertDataFindBoss(d);
+        if(vid1_loc.first == this->thisIndex)
+        {
+            this->insertDataFindBoss(d);
+        }
+        else
+        {
+            this->thisProxy[vid1_loc.first].insertDataFindBoss(d);
+        }
+
 
         //for profiling
         CProxy_UnionFindLibGroup libGroup(libGroupID);
@@ -153,7 +161,15 @@ find_boss1(int arrIdx, uint64_t partnerID, uint64_t senderID) {
         d.partnerOrBossID = src->vertexID;
         d.senderID = -1;
         d.isFBOne = 0;
-        this->thisProxy[partner_loc.first].insertDataFindBoss(d);
+        if(partner_loc.first == this->thisIndex)
+        {
+            insertDataFindBoss(d);
+        }
+        else
+        {
+            this->thisProxy[partner_loc.first].insertDataFindBoss(d);
+        }
+        
 
         CProxy_UnionFindLibGroup libGroup(libGroupID);
         libGroup.ckLocalBranch()->increase_message_count();

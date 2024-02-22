@@ -1,6 +1,6 @@
 #set the following variables to absolute paths
 CHARM_DIR = $(HOME)/Documents/nbodydir/charm
-UNION_FIND_DIR = $(HOME)/Documents/nbodydir/unionfind
+UNION_FIND_DIR = $(HOME)/Documents/nbodydir/paratreet_subset/unionfind
 PREFIX_LIB_DIR = $(UNION_FIND_DIR)/prefixLib
 
 #charmc options

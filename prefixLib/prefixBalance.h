@@ -11,6 +11,7 @@ class Prefix : public CBase_Prefix {
     Prefix(int nElements);
     Prefix(CkMigrateMessage* msg);
     int getValue(){return value;};
+    CkArrayID getArrayID(){return thisArrayID; };
 
     void pup(PUP::er &p) {
       p|index;

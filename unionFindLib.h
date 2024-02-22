@@ -38,6 +38,7 @@ extern CkReduction::reducerType mergeCountMapsReductionType;
 // class definition for library chares
 class UnionFindLib : public CBase_UnionFindLib {
     unionFindVertex *myVertices;
+    CProxy_Prefix prefixLibArray;
     int numMyVertices;
     int pathCompressionThreshold = 5;
     int componentPruneThreshold;
@@ -51,6 +52,7 @@ class UnionFindLib : public CBase_UnionFindLib {
     UnionFindLib(CkMigrateMessage *m) { }
     void passLibGroupID(CkGroupID lgid, CProxy_Prefix pla);
     static CProxy_UnionFindLib unionFindInit(CkArrayID clientArray, int n);
+    //void unionFindInitRemote(CProxy_UnionFindLib ufl, CkArrayID clientArray, int n);
     void registerGetLocationFromID(std::pair<int, int> (*gloc)(uint64_t vid));
     void register_phase_one_cb(CkCallback cb);
     void initialize_vertices(unionFindVertex *appVertices, int numVertices);

@@ -3,7 +3,7 @@
 #include "unionFindLib.h"
 
 /*readonly*/ CProxy_UnionFindLib _UfLibProxy;
-/*readonly*/ CProxy_Prefix prefixLibArray;
+/*readonly*/ //CProxy_Prefix prefixLibArray;
 /*readonly*/ CkGroupID libGroupID;
 CkReduction::reducerType mergeCountMapsReductionType;
 
@@ -485,7 +485,8 @@ find_components(CkCallback cb) {
             myLocalNumBosses += 1;
         }
     }
-
+    CkPrintf("-----------arrayID %d at index %d myLocalNumBosses: %d\n",thisArrayID, thisIndex,myLocalNumBosses);
+    CkPrintf("===========================for prefixLibArray the ID is %d\n",(prefixLibArray[thisIndex].ckLocal())->getArrayID());
     // send local count to prefix library
     CkCallback doneCb(CkReductionTarget(UnionFindLib, boss_count_prefix_done), thisProxy);
     prefixLibArray[thisIndex].startPrefixCalculation(myLocalNumBosses, doneCb);
@@ -499,7 +500,9 @@ boss_count_prefix_done(int totalCount) {
     // access value from prefix lib elem to find starting index
     Prefix* myPrefixElem = prefixLibArray[thisIndex].ckLocal();
     int v = myPrefixElem->getValue();
+    CkPrintf("for prefixLibArray the ID is %d\n",myPrefixElem->getArrayID());
     int myStartIndex = v - myLocalNumBosses;
+    CkPrintf("totalNumBosses: %d, myLocalNumBosses: %d, v: %d\n", totalNumBosses, myLocalNumBosses, v);
     CkAssert(myStartIndex >= 0);
 
     // start labeling my local bosses from myStartIndex
@@ -765,17 +768,38 @@ unionFindInit(CkArrayID clientArray, int n) {
     // Binding order: prefix -> unionFind -> app array
     CkArrayOptions prefix_opts(n);
     prefix_opts.bindTo(_UfLibProxy);
+    CProxy_Prefix pla = CProxy_Prefix::ckNew(n, prefix_opts);
+
+    libGroupID = CProxy_UnionFindLibGroup::ckNew();
+
+    _UfLibProxy.passLibGroupID(libGroupID, pla);
+
+    return _UfLibProxy;
+}
+
+
+
+/*void UnionFindLib::unionFindInitRemote(CkCallback cb, CkArrayID clientArray, int n) {
+    CkArrayOptions opts(n);
+    opts.bindTo(clientArray);
+    _UfLibProxy = CProxy_UnionFindLib::ckNew(opts, NULL,CkCallback(CkIndex_UnionFindLib::someFunction(NULL), thisProxy));
+
+    // create prefix library array here, prefix library is used in Phase 1B
+    // Binding order: prefix -> unionFind -> app array
+    CkArrayOptions prefix_opts(n);
+    prefix_opts.bindTo(_UfLibProxy);
     prefixLibArray = CProxy_Prefix::ckNew(n, prefix_opts);
 
     libGroupID = CProxy_UnionFindLibGroup::ckNew();
 
     _UfLibProxy.passLibGroupID(libGroupID, prefixLibArray);
-
-    return _UfLibProxy;
-}
+}*/
 
 void UnionFindLib::passLibGroupID(CkGroupID lgid, CProxy_Prefix pla)
 {
+    CkPrintf("Passed inside passLibGroupID: %p, %p, %d\n",this->thisProxy, pla, lgid);
+    CkPrintf("===========================for prefixLibArray the ID is %d\n",(pla[thisIndex].ckLocal())->getArrayID());
+
     prefixLibArray = pla;
     libGroupID = lgid;
     _UfLibProxy = this->thisProxy;

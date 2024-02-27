@@ -2,7 +2,7 @@
     
     Prefix::Prefix(int nElements){
       numElements = nElements;
-      CkPrintf("\n\n\nPrefixArray greated with ID %d\n\n\n",thisArrayID);
+      //CkPrintf("\n\n\nPrefixArray greated with ID %d\n\n\n",thisArrayID);
     }
     Prefix::Prefix(CkMigrateMessage* msg){}
 

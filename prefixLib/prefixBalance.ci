@@ -8,7 +8,7 @@ module prefixBalance{
       serial{
         nInts = intsCount;
         value = intsCount;
-        CkPrintf("On proxy with array ID %d, Index %d got value: %d\n",thisArrayID,thisIndex,value);
+        //CkPrintf("On proxy with array ID %d, Index %d got value: %d\n",thisArrayID,thisIndex,value);
       }
       for(index=0; (1 << index) < numElements; index++){
         serial "send_value" {
@@ -28,7 +28,7 @@ module prefixBalance{
         contribute(sizeof(int), &sending_value, CkReduction::sum_int,
           cb
         );
-        CkPrintf("----====== On Index %d got intsCount %d and now value is %d\n",thisIndex,intsCount,value);
+        //CkPrintf("----====== On Index %d got intsCount %d and now value is %d\n",thisIndex,intsCount,value);
 
       }
     };

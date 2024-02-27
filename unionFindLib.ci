@@ -5,9 +5,9 @@ module unionFindLib {
     // initnode function to register custom reduction
     initnode void register_merge_count_maps_reduction(void);
 
-    readonly CProxy_UnionFindLib _UfLibProxy;
+    //readonly CProxy_UnionFindLib _UfLibProxy;
     //readonly CProxy_Prefix prefixLibArray;
-    readonly CkGroupID libGroupID;
+    //readonly CkGroupID libGroupID;
 
     array[1D] UnionFindLib {
         entry UnionFindLib();
@@ -56,7 +56,7 @@ module unionFindLib {
 
     // group chare to support the library chares
     group UnionFindLibGroup {
-        entry UnionFindLibGroup();
+        entry UnionFindLibGroup(CProxy_UnionFindLib ufl);
         entry [reductiontarget] void build_component_count_array(int totalCounts[numElems], int numElems);
         entry [reductiontarget] void done_profiling(int result);
         entry void contribute_count();

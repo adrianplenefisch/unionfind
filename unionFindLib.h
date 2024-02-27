@@ -31,7 +31,7 @@ struct componentCountMap {
 
 
 /* global variables */
-/*readonly*/ extern CkGroupID libGroupID;
+/*readonly*/ //extern CkGroupID libGroupID;
 // declaration for custom reduction
 extern CkReduction::reducerType mergeCountMapsReductionType;
 
@@ -39,6 +39,8 @@ extern CkReduction::reducerType mergeCountMapsReductionType;
 class UnionFindLib : public CBase_UnionFindLib {
     unionFindVertex *myVertices;
     CProxy_Prefix prefixLibArray;
+    CkGroupID libGroupID;
+    CProxy_UnionFindLib _UfLibProxy;
     int numMyVertices;
     int pathCompressionThreshold = 5;
     int componentPruneThreshold;
@@ -100,10 +102,12 @@ class UnionFindLibGroup : public CBase_UnionFindLibGroup {
     bool map_built;
     int* component_count_array;
     int thisPeMessages; //for profiling
+    CProxy_UnionFindLib _UfLibProxy;
     public:
-    UnionFindLibGroup() {
+    UnionFindLibGroup(CProxy_UnionFindLib ufl) {
         map_built = false;
         thisPeMessages = 0;
+        _UfLibProxy = ufl;
     }
     void build_component_count_array(int* totalCounts, int numComponents);
     int get_component_count(long int component_id);
